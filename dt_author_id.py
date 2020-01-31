@@ -7,40 +7,28 @@
     Sara has label 0
     Chris has label 1
 """
-    
+
 import sys
 from time import time
+
 sys.path.append("../tools/")
 from email_preprocess import preprocess
-
 
 ### features_train and features_test are the features for the training
 ### and testing datasets, respectively
 ### labels_train and labels_test are the corresponding item labels
+
 features_train, features_test, labels_train, labels_test = preprocess()
 
-print "Number of features: ", len(features_train[0])
-print "Size of the train data: ", features_train.shape
+print "Size of the training data: ", features_train.shape
 
 from sklearn import tree
-
-clf = tree.DecisionTreeClassifier(min_samples_split=40)
-
-clf.fit(features_train, labels_train)
-
-pred = clf.predict(features_test)
-
 from sklearn.metrics import accuracy_score
 
-acc = accuracy_score(labels_test, pred)
+classifier = tree.DecisionTreeClassifier(min_samples_split=40)
 
-print "Accuracy: ", acc
+classifier.fit(features_train, labels_train)
 
-#########################################################
-### your code goes here ###
+labels_predicted = classifier.predict(features_test)
 
-
-#########################################################
-
-
-#0.9664391353811149
+print "Accuracy: ", accuracy_score(labels_test, labels_predicted)
